@@ -1,0 +1,16 @@
+{% extends "polls/header.html" %}
+{% block title %} Share a polls{% endblock %}
+
+{% block content %}
+	{% if sent %}
+	<h1> Email Sent </h1>
+	<p> {{question.question_text}} was successfully sent to {{ cd.to }}</p>
+	{% else %}
+	<h1> Share {{question.question_text}} by email</h1>
+	<form action="{% url 'polls:post_share' question.id %}" method="POST">
+		{{form.as_p}}
+		{% csrf_token %}
+		<input type="submit" value="Send email">
+	</form>
+	{% endif %}
+{% endblock %}

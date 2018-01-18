@@ -1,0 +1,61 @@
+{% extends "polls/header.html" %}
+{% block content %}
+	{% load static %}
+	<a class="btn btn-default" href="{% url 'polls:question_edit' pk=question.id %}"><span class="glyphicon glyphicon-pencil">Update</span></a>
+
+	<h1>{{question.question_text}}</h1>
+	<form  method="POST">
+		{% csrf_token %}
+		<input type="hidden" value="false" name="favourite" id="favourite">
+		<button id="favouriteBtn">Unlike this Question</button>	
+		
+	</form>
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+	<form action="{% url 'polls:vote' question.id %}" method="post">
+		{% csrf_token %}
+		{% for choice in question.choices_set.all %}
+			<input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{choice.id}}"/>
+			<label for="choice{{ forloop.counter }}">{{choice.choice_text}}</label><br />
+		{% endfor %}
+	<input type="submit" value="Vote">
+	</form>
+	<p> <a href="{% url "polls:post_share" question.id %}"> 
+		Share this question
+	</a></p>
+<!-- 	<form method="post" action={% url "polls:commentform" %}>
+		{{form}}
+	</form> -->
+	<form action="" method="POST">
+		{% csrf_token%}
+		{{form.as_p}}
+		<input type="submit" value="Send comments" />
+	</form>
+	{% for comment in question.comments.all%}
+		<div class="info">
+			<p>Comment {{forloop.counter}} by {{comment.name}}</p>
+			{{comment.body|linebreaks}}
+		</div>
+		{% empty %}
+		<p> There is no comments yet. </p>
+	{% endfor %}
+	<img src="{% static "polls/images/defaultprofile.png" %}" alt="Cartr "/>
+
+	<script>
+		document.getElementById("favouriteBtn").onclick = function(){
+			console.log("triggered!")
+			if(this.innerHTML=="Like this Question"){
+			console.log("unlike")
+			document.getElementById("favourite").value = "true"
+			this.innerHTML=="Unlike this Question"
+
+		}
+			else{
+				console.log("like")
+				document.getElementById("favourite").value="false"
+				this.innerHTML=="Like this Question"
+			}
+		}
+
+	</script>
+{% endblock %}

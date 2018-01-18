@@ -1,0 +1,51 @@
+{% extends "polls/header.html" %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+
+<form method="POST">
+	{% csrf_token %}
+	{{form.as_p}}
+	<h3> choices:</h3>
+	<!-- {% for f_form in formset.management_form %}
+		{{f_form.as_p}}
+	{% endfor %} -->
+	{{formset.management_form}}
+	<table>
+	{% for cform in formset %}
+	<div class="item" id='item{{forloop.counter}}'>
+		{{cform.as_p}}
+		<!-- <a class="delete" href="#" id="delete{{forloop.counter}}"
+		 onclick="item{{forloop.counter}}.style.display='none'; deleteM{{forloop.counter}}.value='true'">
+		Delete</a> -->
+		 <!-- <input type="hidden" value="false" name="delete{{forloop.counter}}" id="deleteM{{forloop.counter}}"> -->
+	</div>
+	{% endfor %}
+	</table>
+	<input type="hidden" value="false" name="addchoice" id="addchoice">	
+	<button id="additembutton" >Add more choices</button>
+	<input type="submit">
+</form>
+
+
+
+<script>
+	document.getElementById("additembutton").onclick = function(){changAddChoice()};
+	function changAddChoice(){
+		console.log("here")
+		document.getElementById("addchoice").value = "true"
+	}		
+	function deleteItem(){
+	}
+	
+		// $('#additembutton').on('click', function(event){
+		// 	console.log("clicked additembutton")
+		// 	$('#addchoice').val("true");
+		// 	$("#addchoice").innerHTML="SUBMITTING "
+		// });
+	
+
+</script>
+</html>
+{% endblock %}
+

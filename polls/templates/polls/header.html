@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+
+<h1>Pooh Polls</h1>
+{% if user.is_authenticated %}
+	<p>Hello {{user.username}}</p>
+	<a href="{% url 'logout' %}">logout</a>
+
+{% if request.path != "/polls/" %}
+<a href="{% url 'polls:index' %}">Back to Index</a>
+
+{% endif %}
+<p><a href="{% url "polls:polls_feed" %}">Subscrive to my feed</a></p>
+{% endif %}
+  <a href={%url "password_change" %} >Change pwd</a>
+
+{% block content %}
+{% endblock %}
